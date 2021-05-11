@@ -1,62 +1,50 @@
+import sys,random
 import pygame
-import time
+
+# initialize pygame
 pygame.init()
 
-white=(255,255,255)
-black=(0,0,0)
-red=(255,0,0)
+# constants that store our screen width and height ,
+# they are in pixels
+WIN_X = 800
+WIN_Y = 600
 
-dis_width=800
-dis_height = 600
-dis= pygame.display.set_mode((dis_width, dis_height))
-pygame.display.set_caption('SNAKE GAME')
+# setting up our game window in pygame with
+# our screen width and height constants as tuple
+WIN = pygame.display.set_mode((WIN_X,WIN_Y))
 
-game_over= False
+# setting the caption of our game
+# or more precisely the label that
+# you will see on the game window
 
-x1=dis_width/2
-y1=dis_height/2
-snake_block=10
-x1_change=0
-y1_change=0
+pygame.display.set_caption('snake game')
 
-clock= pygame.time.Clock()
-snake_speed=30
+#initializing pygame.time.Clock() which controls
+#The FPS or frame per second or more explicitly
+#For how many times per second our game loop
+#below should run
+CLOCK = pygame.time.Clock()
 
-font_style=pygame.font.SysFont(None,50)
-
-def message(msg,color):
-    mesg=font_style.render(msg,True,color)
-    dis.blit(mesg, [dis_width/2, dis_height/2])
-
-while not game_over:
-    for event in pygame.event.get():
+#our infinite game loop
+while 1:
+   #checking for events in pygame.event.get() which
+   #returns the event that occurs like
+   #any key presses or user clicking the
+   #exit , maximize , minimize button
+   for event in pygame.event.get():
+        #here we are checking if user has clicked the exit button
+        #by checking if the event.type is pygame.QUIT
+        #which is predefined in pygame as the exit button
         if event.type == pygame.QUIT:
-            game_over=True
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                x1_change=-snake_block
-                y1_change=0
-            elif event.key == pygame.K_RIGHT:
-                x1_change=snake_block
-                y1_change=0
-            elif event.key== pygame.K_UP:
-                x1_change = -snake_block
-                y1_change = 0
-            elif event.key == pygame.K_DOWN:
-                x1_change=snake_block
-                y1_change=0
-    if x1 >= dis_width or x1 < 0 or y1 >= dis_height or y1 < 0:
-        game_over=True
+            #if user clicked the exit button , quit the game
+            #and exit out of the program
+            pygame.quit()
+            sys.exit()
 
-    x1 += x1_change
-    y1 += y1_change
-    dis.fill(white)
-    pygame.draw.rect(dis,black,[x1,y1,10,10])
-    pygame.display.update()
-    clock.tick(snake_speed)
-message("You lose",red)
-pygame.display.update()
-time.sleep(2)
-pygame.quit()
+        #using CLOCK variable mentioned above and using
+        #tick method on it passing in the fps
+        #this means that this loop will run
+        #25 times per second,
+        #feel free to change the value
+        CLOCK.tick(25)
 
-quit()
